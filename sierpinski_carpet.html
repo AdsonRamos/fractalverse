@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carpete de Sierpinski</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: white;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 60px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e68900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Carpete de Sierpinski</h1>
+  <canvas id="carpeteCanvas" width="600" height="600"></canvas>
+
+  <div class="controls">
+    <label> Nível de Recursão: <input type="number" id="recursionLevel" value="4" min="0" max="6"> </label>
+    <label> Cor do Fundo: <input type="color" id="backgroundColor" value="#ffffff"> </label>
+    <label> Cor dos Quadrados: <input type="color" id="squareColor" value="#000000"> </label>
+    <button onclick="drawCarpet()">Atualizar</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("carpeteCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function drawSierpinski(x, y, size, level, squareColor) {
+      if (level === 0) {
+        ctx.fillStyle = squareColor;
+        ctx.fillRect(x, y, size, size);
+        return;
+      }
+
+      let newSize = size / 3;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (i === 1 && j === 1) continue; // Remove o quadrado central
+          drawSierpinski(x + i * newSize, y + j * newSize, newSize, level - 1, squareColor);
+        }
+      }
+    }
+
+    function drawCarpet() {
+      const level = parseInt(document.getElementById("recursionLevel").value);
+      const bgColor = document.getElementById("backgroundColor").value;
+      const squareColor = document.getElementById("squareColor").value;
+
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      drawSierpinski(0, 0, canvas.width, level, squareColor);
+    }
+
+    drawCarpet();
+  </script>
+
+</body>
+
+</html>

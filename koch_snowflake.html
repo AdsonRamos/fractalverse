@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fractal Floco de Neve de Koch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 0 auto;
+    }
+
+    #controls {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Fractal Floco de Neve de Koch</h1>
+  <canvas id="kochCanvas" width="600" height="600"></canvas>
+  <div id="controls">
+    <label for="iterations">Número de iterações:</label>
+    <input type="number" id="iterations" min="0" max="10" value="3">
+    <button onclick="drawFractal()">Desenhar</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('kochCanvas');
+    const ctx = canvas.getContext('2d');
+    const iterationsInput = document.getElementById('iterations');
+
+    function drawFractal() {
+      const iterations = parseInt(iterationsInput.value, 10);
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpar canvas
+      drawKochSnowflake(iterations);
+    }
+
+    function drawKochSnowflake(iterations) {
+      const size = 400;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      // Ponto inicial e final do triângulo
+      const p1 = { x: centerX - size / 2, y: centerY + size * Math.sqrt(3) / 6 };
+      const p2 = { x: centerX + size / 2, y: centerY + size * Math.sqrt(3) / 6 };
+      const p3 = { x: centerX, y: centerY - size * Math.sqrt(3) / 3 };
+
+      // Iniciar o floco de neve diretamente com a recursão
+      koch(p1, p2, iterations);
+      koch(p2, p3, iterations);
+      koch(p3, p1, iterations);
+    }
+
+    function koch(p1, p2, iterations) {
+      if (iterations === 0) {
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      } else {
+        const deltaX = p2.x - p1.x;
+        const deltaY = p2.y - p1.y;
+
+        const pA = { x: p1.x + deltaX / 3, y: p1.y + deltaY / 3 };
+        const pB = { x: p1.x + 2 * deltaX / 3, y: p1.y + 2 * deltaY / 3 };
+
+        const angle = Math.PI / 3;
+        const pC = {
+          x: pA.x + Math.cos(angle) * (deltaX / 3) - Math.sin(angle) * (deltaY / 3),
+          y: pA.y + Math.sin(angle) * (deltaX / 3) + Math.cos(angle) * (deltaY / 3)
+        };
+
+        koch(p1, pA, iterations - 1);
+        koch(pA, pC, iterations - 1);
+        koch(pC, pB, iterations - 1);
+        koch(pB, p2, iterations - 1);
+      }
+    }
+
+    // Inicializar com o valor padrão
+    drawFractal();
+  </script>
+</body>
+
+</html>

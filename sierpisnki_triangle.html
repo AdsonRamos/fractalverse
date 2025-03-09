@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triângulo de Sierpiński</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #111;
+            color: white;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        canvas {
+            background: black;
+            border: 1px solid white;
+            margin-top: 10px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        input[type="number"], input[type="color"] {
+            width: 60px;
+            text-align: center;
+            padding: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            border: none;
+            background: #6200ea;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #3700b3;
+        }
+        .color-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Triângulo de Sierpiński</h1>
+    <canvas id="canvas"></canvas>
+    
+    <div class="controls">
+        <label>Iterações:</label>
+        <input type="number" id="iterations" value="5" min="0" max="10">
+        
+        <div class="color-label">
+            <label>Topo:</label>
+            <input type="color" id="colorTop" value="#ffffff">
+        </div>
+        <div class="color-label">
+            <label>Base Esq.:</label>
+            <input type="color" id="colorLeft" value="#ffffff">
+        </div>
+        <div class="color-label">
+            <label>Base Dir.:</label>
+            <input type="color" id="colorRight" value="#ffffff">
+        </div>
+
+        <button onclick="drawFractal()">Gerar</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 500;
+        canvas.height = 500;
+
+        function drawTriangle(p1, p2, p3, color) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(p3.x, p3.y);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        function sierpinski(p1, p2, p3, depth, colors) {
+            if (depth === 0) {
+                const centroid = {
+                    x: (p1.x + p2.x + p3.x) / 3,
+                    y: (p1.y + p2.y + p3.y) / 3
+                };
+                
+                // Escolher cores diferentes para cada região principal
+                if (centroid.y < canvas.height / 3) {
+                    drawTriangle(p1, p2, p3, colors.top);
+                } else if (centroid.x < canvas.width / 2) {
+                    drawTriangle(p1, p2, p3, colors.left);
+                } else {
+                    drawTriangle(p1, p2, p3, colors.right);
+                }
+                return;
+            }
+
+            const mid1 = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+            const mid2 = { x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2 };
+            const mid3 = { x: (p1.x + p3.x) / 2, y: (p1.y + p3.y) / 2 };
+
+            sierpinski(p1, mid1, mid3, depth - 1, colors);
+            sierpinski(mid1, p2, mid2, depth - 1, colors);
+            sierpinski(mid3, mid2, p3, depth - 1, colors);
+        }
+
+        function drawFractal() {
+            const depth = parseInt(document.getElementById("iterations").value);
+            const colors = {
+                top: document.getElementById("colorTop").value,
+                left: document.getElementById("colorLeft").value,
+                right: document.getElementById("colorRight").value
+            };
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const p1 = { x: canvas.width / 2, y: 20 };
+            const p2 = { x: 20, y: canvas.height - 20 };
+            const p3 = { x: canvas.width - 20, y: canvas.height - 20 };
+
+            sierpinski(p1, p2, p3, depth, colors);
+        }
+
+        drawFractal();
+    </script>
+</body>
+</html>
