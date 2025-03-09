@@ -1,10 +1,10 @@
 
 
 const fractals = [
-  { name: "Triângulo de Sierpiński", description: "Triângulo subdividido removendo o centro.", img: 'resources/fractals/sierpinski_triangle.png', link: 'sierpisnki_triangle.html' },
-  { name: "Carpete de Sierpiński", description: "Quadrado dividido em 9 partes, removendo o centro.", img: 'resources/fractals/sierpinski_carpet.png', link: 'sierpinski_carpet.html' },
-  { name: "Curva de Koch", description: "Segmento substituído por um padrão em forma de 'V'.", img: 'resources/fractals/koch_curve.png', link: 'koch_curve.html' },
-  { name: "Floco de Neve de Koch", description: "Triângulo com cada lado transformado em curva de Koch.", img: 'resources/fractals/koch_snowflake.png', link: 'koch_snowflake.html'},
+  { name: "Triângulo de Sierpiński", description: "Triângulo subdividido removendo o centro.", img: 'resources/fractals/sierpinski_triangle.png', link: 'src/pages/sierpisnki_triangle.html' },
+  { name: "Carpete de Sierpiński", description: "Quadrado dividido em 9 partes, removendo o centro.", img: 'resources/fractals/sierpinski_carpet.png', link: 'src/pages/sierpinski_carpet.html' },
+  { name: "Curva de Koch", description: "Segmento substituído por um padrão em forma de 'V'.", img: 'resources/fractals/koch_curve.png', link: 'src/pages/koch_curve.html' },
+  { name: "Floco de Neve de Koch", description: "Triângulo com cada lado transformado em curva de Koch.", img: 'resources/fractals/koch_snowflake.png', link: 'src/pages/koch_snowflake.html'},
   /* { name: "Árvore de Pythagoras", description: "Quadrado gerando dois quadrados inclinados recursivamente." },
   { name: "Conjunto de Mandelbrot", description: "Definido por \( z_{n+1} = z_n^2 + c \), iterando no plano complexo." },
   { name: "Conjunto de Julia", description: "Similar ao Mandelbrot, mas fixando \( c \) e variando \( z_0 \)." },
@@ -20,7 +20,7 @@ const container = document.getElementById("cards-container");
 
 
 fractals.forEach(fractal => {
-  //console.log(img)
+
   const card = document.createElement("div");
   card.classList.add("card");
 
@@ -41,10 +41,5 @@ fractals.forEach(fractal => {
     window.location.href = fractal.link;
   });
 
-  /* if (fractal.img) {
-    const img = document.createElement("img")
-    img.src = fractal.img
-    card.appendChild(img)
-  } */
   container.appendChild(card);
 });
