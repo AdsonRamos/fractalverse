@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conjunto de Julia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 80px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e68900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Conjunto de Julia</h1>
+  <canvas id="juliaCanvas" width="600" height="600"></canvas>
+
+  <div class="controls">
+    <label> Iterações: <input type="number" id="iterations" value="100" min="10" max="1000"> </label>
+    <label> Zoom: <input type="number" id="zoom" value="1.5" min="0.5" max="5" step="0.1"> </label>
+    <label> C Real: <input type="number" id="cReal" value="-0.7" step="0.01"> </label>
+    <label> C Imaginário: <input type="number" id="cImag" value="0.27015" step="0.01"> </label>
+    <button onclick="drawJulia()">Atualizar</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("juliaCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function julia(x, y, cReal, cImag, maxIter) {
+      let real = x;
+      let imag = y;
+      for (let i = 0; i < maxIter; i++) {
+        let real2 = real * real - imag * imag + cReal;
+        let imag2 = 2 * real * imag + cImag;
+        real = real2;
+        imag = imag2;
+
+        if (real * real + imag * imag > 4) return i;
+      }
+      return maxIter;
+    }
+
+    function drawJulia() {
+      const width = canvas.width;
+      const height = canvas.height;
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const pixels = imageData.data;
+
+      // Parâmetros ajustáveis
+      const maxIter = parseInt(document.getElementById("iterations").value);
+      const zoom = parseFloat(document.getElementById("zoom").value);
+      const cReal = parseFloat(document.getElementById("cReal").value);
+      const cImag = parseFloat(document.getElementById("cImag").value);
+
+      for (let px = 0; px < width; px++) {
+        for (let py = 0; py < height; py++) {
+          let x0 = (px - width / 2) / (zoom * width / 2);
+          let y0 = (py - height / 2) / (zoom * height / 2);
+          let iter = julia(x0, y0, cReal, cImag, maxIter);
+
+          let color = iter === maxIter ? 0 : (255 * iter) / maxIter;
+          let index = (px + py * width) * 4;
+          pixels[index] = color; // Vermelho
+          pixels[index + 1] = color * 0.5; // Verde
+          pixels[index + 2] = 10 - color; // Azul
+          pixels[index + 3] = 200; // Opacidade
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+    }
+
+    drawJulia();
+  </script>
+
+</body>
+
+</html>
