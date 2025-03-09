@@ -5,7 +5,7 @@ const fractals = [
   { name: "Carpete de Sierpiński", description: "Quadrado dividido em 9 partes, removendo o centro.", img: 'resources/fractals/sierpinski_carpet.png', link: 'sierpinski_carpet.html' },
   { name: "Curva de Koch", description: "Segmento substituído por um padrão em forma de 'V'.", img: 'resources/fractals/koch_curve.png', link: 'koch_curve.html' },
   { name: "Floco de Neve de Koch", description: "Triângulo com cada lado transformado em curva de Koch.", img: 'resources/fractals/koch_snowflake.png', link: 'koch_snowflake.html'},
-  { name: "Árvore de Pythagoras", description: "Quadrado gerando dois quadrados inclinados recursivamente." },
+  /* { name: "Árvore de Pythagoras", description: "Quadrado gerando dois quadrados inclinados recursivamente." },
   { name: "Conjunto de Mandelbrot", description: "Definido por \( z_{n+1} = z_n^2 + c \), iterando no plano complexo." },
   { name: "Conjunto de Julia", description: "Similar ao Mandelbrot, mas fixando \( c \) e variando \( z_0 \)." },
   { name: "Curva de Dragon", description: "Segmento dobrado repetidamente em ângulos retos." },
@@ -13,7 +13,7 @@ const fractals = [
   { name: "Curva de Peano", description: "Curva que preenche o espaço contínuo subdividindo-se." },
   { name: "Curva de Gosper", description: "Curva fractal suave baseada em ângulos diferentes." },
   { name: "Samambaia de Barnsley", description: "Gerado por transformações geométricas iteradas." },
-  { name: "Triângulo de Vicsek", description: "Quadrado subdividido e removendo áreas centrais." }
+  { name: "Triângulo de Vicsek", description: "Quadrado subdividido e removendo áreas centrais." } */
 ];
 
 const container = document.getElementById("cards-container");
