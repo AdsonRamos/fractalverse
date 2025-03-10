@@ -6,7 +6,7 @@ const fractals = [
   { name: "Curva de Koch", description: "Segmento substituído por um padrão em forma de 'V'.", img: 'resources/fractals/koch_curve.png', link: 'src/pages/koch_curve.html' },
   { name: "Floco de Neve de Koch", description: "Triângulo com cada lado transformado em curva de Koch.", img: 'resources/fractals/koch_snowflake.png', link: 'src/pages/koch_snowflake.html' },
   { name: "Árvore Fractal", description: "Árvore gerada a partir de um galho inicial que se reparte em outros dois.", img: 'resources/fractals/fractal_tree.png', link: 'src/pages/fractal_tree.html' },
-  /* { name: "Árvore de Pythagoras (Consertar)", description: "Quadrado gerando dois quadrados inclinados recursivamente.", img: 'resources/fractals/pythagoras_tree.png', link: 'src/pages/pythagoras_tree.html' }, */
+  { name: "Árvore de Pythagoras (Consertar)", description: "Quadrado gerando dois quadrados inclinados recursivamente.", img: 'resources/fractals/pythagoras_tree.png', link: 'src/pages/pythagoras_tree.html' },
   { name: "Conjunto de Mandelbrot", description: "Definido por \( z_{n+1} = z_n^2 + c \), iterando no plano complexo.", img: 'resources/fractals/mandelbrot_set.png', link: 'src/pages/mandelbrot_set.html' },
   { name: "Conjunto de Julia", description: "Similar ao Mandelbrot, mas fixando \( c \) e variando \( z_0 \).", img: 'resources/fractals/julia_set.png', link: 'src/pages/julia_set.html' },
   { name: "Curva de Dragon", description: "Segmento dobrado repetidamente em ângulos retos.", img: 'resources/fractals/dragon_curve.png', link: 'src/pages/dragon_curve.html' },
