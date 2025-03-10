@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curva de Peano</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 80px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e68900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Curva de Peano</h1>
+  <canvas id="peanoCanvas" width="600" height="600"></canvas>
+
+  <div class="controls">
+    <label> Iterações: <input type="number" id="iterations" value="3" min="1" max="5"> </label>
+    <label> Cor: <input type="color" id="colorPicker" value="#00ffcc"> </label>
+    <button onclick="drawPeano()">Atualizar</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("peanoCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function peanoCurve(order, x, y, size, firstMove = true) {
+      if (order === 0) {
+        if (firstMove) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+        return;
+      }
+
+      const newSize = size / 3;
+
+      peanoCurve(order - 1, x, y, newSize, firstMove);
+      peanoCurve(order - 1, x, y + newSize, newSize, false);
+      peanoCurve(order - 1, x, y + 2 * newSize, newSize, false);
+      peanoCurve(order - 1, x + newSize, y + 2 * newSize, newSize, false);
+      peanoCurve(order - 1, x + newSize, y + newSize, newSize, false);
+      peanoCurve(order - 1, x + newSize, y, newSize, false);
+      peanoCurve(order - 1, x + 2 * newSize, y, newSize, false);
+      peanoCurve(order - 1, x + 2 * newSize, y + newSize, newSize, false);
+      peanoCurve(order - 1, x + 2 * newSize, y + 2 * newSize, newSize, false);
+    }
+
+    function drawPeano() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const color = document.getElementById("colorPicker").value;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      const iterations = parseInt(document.getElementById("iterations").value);
+      const size = Math.min(canvas.width, canvas.height) * 0.8;
+      const offsetX = (canvas.width - size) / 2;
+      const offsetY = (canvas.height - size) / 2;
+      peanoCurve(iterations, offsetX, offsetY, size);
+      ctx.stroke();
+    }
+
+    drawPeano();
+  </script>
+
+</body>
+
+</html>
