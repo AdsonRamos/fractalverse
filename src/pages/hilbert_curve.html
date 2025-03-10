@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curva de Hilbert</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 80px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e68900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Curva de Hilbert</h1>
+  <canvas id="hilbertCanvas" width="600" height="600"></canvas>
+
+  <div class="controls">
+    <label> Iterações: <input type="number" id="iterations" value="4" min="1" max="7"> </label>
+    <label> Cor: <input type="color" id="colorPicker" value="#00ffcc"> </label>
+    <button onclick="drawHilbert()">Atualizar</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("hilbertCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function hilbertCurve(order, x, y, xi, xj, yi, yj, firstMove = true) {
+      if (order <= 0) {
+        const newX = x + (xi + yi) / 2;
+        const newY = y + (xj + yj) / 2;
+        if (firstMove) {
+          ctx.moveTo(newX, newY);
+        } else {
+          ctx.lineTo(newX, newY);
+        }
+        return;
+      }
+
+      hilbertCurve(order - 1, x, y, yi / 2, yj / 2, xi / 2, xj / 2, firstMove);
+      hilbertCurve(order - 1, x + xi / 2, y + xj / 2, xi / 2, xj / 2, yi / 2, yj / 2, false);
+      hilbertCurve(order - 1, x + xi / 2 + yi / 2, y + xj / 2 + yj / 2, xi / 2, xj / 2, yi / 2, yj / 2, false);
+      hilbertCurve(order - 1, x + xi / 2 + yi, y + xj / 2 + yj, -yi / 2, -yj / 2, -xi / 2, -xj / 2, false);
+    }
+
+    function drawHilbert() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const color = document.getElementById("colorPicker").value;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      const iterations = parseInt(document.getElementById("iterations").value);
+      const size = Math.min(canvas.width, canvas.height) * 0.8;
+      const offsetX = (canvas.width - size) / 2;
+      const offsetY = (canvas.height - size) / 2;
+      hilbertCurve(iterations, offsetX, offsetY, size, 0, 0, size);
+      ctx.stroke();
+    }
+
+    drawHilbert();
+  </script>
+
+</body>
+
+</html>
