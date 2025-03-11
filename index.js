@@ -13,8 +13,8 @@ const fractals = [
   { name: "Curva de Hilbert", description: "Linha preenchendo o espaço com curvas em 'U' recursivas.", img: 'resources/fractals/hilbert_curve.png', link: 'src/pages/hilbert_curve.html' },
   { name: "Curva de Peano", description: "Curva que preenche o espaço contínuo subdividindo-se.", img: 'resources/fractals/peano_curve.png', link: 'src/pages/peano_curve.html' },
   { name: "Curva de Gosper", description: "Curva fractal suave baseada em ângulos diferentes.", img: 'resources/fractals/gosper_curve.png', link: 'src/pages/gosper_curve.html' },
-  { name: "Samambaia de Barnsley", description: "Gerado por transformações geométricas iteradas.", img: 'resources/fractals/barnsley_fern.png', link: 'src/pages/barnsley_fern.html'},
-  /* { name: "Triângulo de Vicsek", description: "Quadrado subdividido e removendo áreas centrais.", img: 'resources/fractals/', link: 'src/pages/'} */
+  { name: "Samambaia de Barnsley", description: "Gerado por transformações geométricas iteradas.", img: 'resources/fractals/barnsley_fern.png', link: 'src/pages/barnsley_fern.html' },
+  { name: "Fractal de Vicsek", description: "Quadrado subdividido e removendo áreas centrais.", img: 'resources/fractals/vicsek_fractal.png', link: 'src/pages/vicsek_fractal.html' }
 ];
 
 const container = document.getElementById("cards-container");

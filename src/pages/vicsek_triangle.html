@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fractal de Vicsek</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 80px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Fractal de Vicsek</h1>
+  <canvas id="vicsekCanvas" width="500" height="500"></canvas>
+
+  <div class="controls">
+    <label> Profundidade: <input type="number" id="depth" value="3" min="0" max="5"> </label>
+    <label> Cor: <input type="color" id="colorPicker" value="#ffcc00"> </label>
+    <button onclick="drawFractal()">Gerar Fractal</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("vicsekCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function drawSquare(x, y, size) {
+      ctx.fillRect(x, y, size, size);
+    }
+
+    function drawVicsek(x, y, size, depth) {
+      if (depth === 0) {
+        drawSquare(x, y, size);
+      } else {
+        let newSize = size / 3;
+        drawVicsek(x, y, newSize, depth - 1);
+        drawVicsek(x + 2 * newSize, y, newSize, depth - 1);
+        drawVicsek(x, y + 2 * newSize, newSize, depth - 1);
+        drawVicsek(x + 2 * newSize, y + 2 * newSize, newSize, depth - 1);
+        drawVicsek(x + newSize, y + newSize, newSize, depth - 1);
+      }
+    }
+
+    function drawFractal() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = document.getElementById("colorPicker").value;
+      let depth = parseInt(document.getElementById("depth").value);
+      drawVicsek(100, 100, 300, depth);
+    }
+
+    drawFractal();
+  </script>
+
+</body>
+
+</html>
