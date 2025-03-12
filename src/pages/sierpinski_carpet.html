@@ -15,10 +15,12 @@
     }
 
     canvas {
-      background-color: white;
+      background-color: black;
       display: block;
       margin: auto;
       border-radius: 10px;
+      max-width: 100%;
+      height: auto;
     }
 
     .controls {
@@ -71,6 +73,7 @@
     <label> Nível de Recursão: <input type="number" id="recursionLevel" value="4" min="0" max="6"> </label>
     <label> Cor do Fundo: <input type="color" id="backgroundColor" value="#ffffff"> </label>
     <label> Cor dos Quadrados: <input type="color" id="squareColor" value="#000000"> </label>
+    <label>Mostrar Animação: <input type="checkbox" id="animate"></label>
     <button onclick="drawCarpet()">Atualizar</button>
   </div>
 
