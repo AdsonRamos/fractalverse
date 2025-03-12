@@ -15,10 +15,12 @@
     }
 
     canvas {
-      background-color: white;
+      background-color: #ffffff;
       display: block;
       margin: auto;
       border-radius: 10px;
+      max-width: 100%;
+      height: auto;
     }
 
     .controls {
@@ -70,6 +72,7 @@
   <div class="controls">
     <label> Nível de Recursão: <input type="number" id="recursionLevel" value="4" min="0" max="6"> </label>
     <label> Cor da Curva: <input type="color" id="lineColor" value="#0000FF"> </label>
+    <label> Cor do Fundo: <input type="color" id="backgroundColor" value="#FFFFFF"> </label>
     <button onclick="drawKochCurve()">Atualizar</button>
   </div>
 
@@ -114,8 +117,11 @@
     function drawKochCurve() {
       const level = parseInt(document.getElementById("recursionLevel").value);
       const color = document.getElementById("lineColor").value;
+      const backgroundColor = document.getElementById("backgroundColor").value;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = backgroundColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       drawKoch(50, 250, 750, 250, level, color);
     }
 
