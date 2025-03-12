@@ -1,149 +1,126 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triângulo de Sierpiński</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #111;
-            color: white;
-            padding: 20px;
-        }
-        h1 {
-            margin-bottom: 10px;
-        }
-        canvas {
-            background: black;
-            border: 1px solid white;
-            margin-top: 10px;
-        }
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        input[type="number"], input[type="color"] {
-            width: 60px;
-            text-align: center;
-            padding: 5px;
-        }
-        button {
-            padding: 5px 10px;
-            border: none;
-            background: #6200ea;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover {
-            background: #3700b3;
-        }
-        .color-label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triângulo de Sierpinski</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 100px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e68900;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Triângulo de Sierpiński</h1>
-    <canvas id="canvas"></canvas>
-    
-    <div class="controls">
-        <label>Iterações:</label>
-        <input type="number" id="iterations" value="5" min="0" max="10">
-        
-        <div class="color-label">
-            <label>Topo:</label>
-            <input type="color" id="colorTop" value="#ffffff">
-        </div>
-        <div class="color-label">
-            <label>Base Esq.:</label>
-            <input type="color" id="colorLeft" value="#ffffff">
-        </div>
-        <div class="color-label">
-            <label>Base Dir.:</label>
-            <input type="color" id="colorRight" value="#ffffff">
-        </div>
+  <canvas id="sierpinskiCanvas"></canvas>
+  <div class="controls">
+    <label>Profundidade: <input type="number" id="depth" min="0" max="7" value="5"></label>
+    <label>Cor de Fundo: <input type="color" id="bgColor" value="#FFFFFF"></label>
+    <label>Cor do Triângulo: <input type="color" id="triangleColor" value="#000000"></label>
+    <label>Mostrar Animação: <input type="checkbox" id="animate"></label>
+    <button onclick="render()">Atualizar</button>
+  </div>
+  <script>
+    const canvas = document.getElementById("sierpinskiCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = 600;
+    canvas.height = 520;
 
-        <button onclick="drawFractal()">Gerar</button>
-    </div>
+    function drawTriangle(x, y, size, depth, delay) {
+      if (depth === 0) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + size / 2, y - size);
+        ctx.lineTo(x + size, y);
+        ctx.closePath();
+        ctx.fill();
+        return;
+      }
 
-    <script>
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = 500;
-        canvas.height = 500;
+      const newSize = size / 2;
+      setTimeout(() => {
+        drawTriangle(x, y, newSize, depth - 1, delay);
+        drawTriangle(x + newSize / 2, y - newSize, newSize, depth - 1, delay);
+        drawTriangle(x + newSize, y, newSize, depth - 1, delay);
+      }, delay);
+    }
 
-        function drawTriangle(p1, p2, p3, color) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.lineTo(p3.x, p3.y);
-            ctx.closePath();
-            ctx.fillStyle = color;
-            ctx.fill();
-        }
+    function render() {
+      const depth = parseInt(document.getElementById("depth").value);
+      const bgColor = document.getElementById("bgColor").value;
+      const triangleColor = document.getElementById("triangleColor").value;
+      const animate = document.getElementById("animate").checked;
 
-        function sierpinski(p1, p2, p3, depth, colors) {
-            if (depth === 0) {
-                const centroid = {
-                    x: (p1.x + p2.x + p3.x) / 3,
-                    y: (p1.y + p2.y + p3.y) / 3
-                };
-                
-                // Escolher cores diferentes para cada região principal
-                if (centroid.y < canvas.height / 3) {
-                    drawTriangle(p1, p2, p3, colors.top);
-                } else if (centroid.x < canvas.width / 2) {
-                    drawTriangle(p1, p2, p3, colors.left);
-                } else {
-                    drawTriangle(p1, p2, p3, colors.right);
-                }
-                return;
-            }
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = triangleColor;
 
-            const mid1 = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
-            const mid2 = { x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2 };
-            const mid3 = { x: (p1.x + p3.x) / 2, y: (p1.y + p3.y) / 2 };
+      if (animate) {
+        drawTriangle(100, 450, 400, depth, 100);
+      } else {
+        drawTriangle(100, 450, 400, depth, 0);
+      }
+    }
 
-            sierpinski(p1, mid1, mid3, depth - 1, colors);
-            sierpinski(mid1, p2, mid2, depth - 1, colors);
-            sierpinski(mid3, mid2, p3, depth - 1, colors);
-        }
+    document.getElementById("depth").addEventListener("input", render);
+    document.getElementById("bgColor").addEventListener("input", render);
+    document.getElementById("triangleColor").addEventListener("input", render);
 
-        function drawFractal() {
-            const depth = parseInt(document.getElementById("iterations").value);
-            const colors = {
-                top: document.getElementById("colorTop").value,
-                left: document.getElementById("colorLeft").value,
-                right: document.getElementById("colorRight").value
-            };
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const p1 = { x: canvas.width / 2, y: 20 };
-            const p2 = { x: 20, y: canvas.height - 20 };
-            const p3 = { x: canvas.width - 20, y: canvas.height - 20 };
-
-            sierpinski(p1, p2, p3, depth, colors);
-        }
-
-        drawFractal();
-    </script>
+    render();
+  </script>
 </body>
+
 </html>
