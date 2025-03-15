@@ -102,18 +102,18 @@
       const pixels = imageData.data;
 
       // Parâmetros ajustáveis
-      const maxIter = parseInt(document.getElementById("iterations").value);
-      const zoom = parseFloat(document.getElementById("zoom").value);
-      const offsetX = parseFloat(document.getElementById("offsetX").value);
-      const offsetY = parseFloat(document.getElementById("offsetY").value);
+      const maxIterValue = parseInt(document.getElementById("iterations").value);
+      const zoomValue = parseFloat(document.getElementById("zoom").value);
+      const offsetXValue = parseFloat(document.getElementById("offsetX").value);
+      const offsetYValue = parseFloat(document.getElementById("offsetY").value);
 
       for (let px = 0; px < width; px++) {
         for (let py = 0; py < height; py++) {
-          let x0 = px / zoom + offsetX;
-          let y0 = py / zoom + offsetY;
-          let iter = mandelbrot(x0, y0, maxIter);
+          let x0 = px / zoomValue + offsetXValue;
+          let y0 = py / zoomValue + offsetYValue;
+          let iter = mandelbrot(x0, y0, maxIterValue);
 
-          let color = iter === maxIter ? 0 : (255 * iter) / maxIter;
+          let color = iter === maxIterValue ? 0 : (255 * iter) / maxIterValue;
           let index = (px + py * width) * 4;
           pixels[index] = color; // Vermelho
           pixels[index + 1] = color * 0.5; // Verde
@@ -124,6 +124,18 @@
 
       ctx.putImageData(imageData, 0, 0);
     }
+
+    const iterations = document.getElementById("iterations")
+    iterations.addEventListener("input", drawMandelbrot)
+
+    const zoom = document.getElementById("zoom")
+    zoom.addEventListener("input", drawMandelbrot)
+
+    const offsetX = document.getElementById("offsetX")
+    offsetX.addEventListener("input", drawMandelbrot)
+
+    const offsetY = document.getElementById("offsetY")
+    offsetY.addEventListener("input", drawMandelbrot)
 
     drawMandelbrot();
   </script>
