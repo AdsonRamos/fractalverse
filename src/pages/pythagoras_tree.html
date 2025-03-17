@@ -71,7 +71,6 @@
 
   <div class="controls">
     <label> Nível de Recursão: <input type="number" id="recursionLevel" value="5" min="0" max="10"> </label>
-    <label> Fator de Escala: <input type="number" step="0.01" id="scaleFactor" value="0.7" min="0.5" max="0.9"> </label>
     <label> Cor Base: <input type="color" id="baseColor" value="#228B22"> </label>
     <button onclick="drawTree()">Atualizar</button>
   </div>
@@ -89,32 +88,30 @@
       ctx.restore();
     }
 
-    function drawTree(x, y, size, angle, level, scaleFactor, color) {
+    function drawTree(x, y, size, angle, level, color) {
       if (level === 0) return;
-
       drawSquare(x, y, size, angle, color);
 
-      const newSize = size * scaleFactor;
-      const xOffset = newSize * Math.cos(angle);
-      const yOffset = newSize * Math.sin(angle);
+      const newSize = size * Math.cos(Math.PI / 4);
 
-      const leftX = x - xOffset;
-      const leftY = y - yOffset;
+      const x1 = x - newSize * Math.cos(angle + Math.PI / 4);
+      const y1 = y + newSize * Math.sin(angle - 3 * Math.PI / 4);
 
-      const rightX = leftX + newSize * Math.cos(angle + Math.PI / 4);
-      const rightY = leftY - newSize * Math.sin(angle + Math.PI / 4);
+      const rightX = x + 2 * newSize * Math.cos(angle - Math.PI / 4);
+      const rightY = y - 2 * newSize * Math.sin(angle + 3 * Math.PI / 4)
 
-      drawTree(leftX, leftY, newSize, angle - Math.PI / 4, level - 1, scaleFactor, color);
-      drawTree(rightX, rightY, newSize, angle + Math.PI / 4, level - 1, scaleFactor, color);
+      drawTree(x1, y1, newSize, angle - Math.PI / 4, level - 1, color);
+      drawTree(rightX, rightY, newSize, angle + Math.PI / 4, level - 1, color);
     }
 
     function draw() {
       const level = parseInt(document.getElementById("recursionLevel").value);
-      const scaleFactor = parseFloat(document.getElementById("scaleFactor").value);
       const baseColor = document.getElementById("baseColor").value;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawTree(canvas.width / 2 - 50, canvas.height - 100, 100, 0, level, scaleFactor, baseColor);
+      ctx.fillStyle = 'white'
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      drawTree(canvas.width / 2 - 50, canvas.height - 100, 100, 0, 10, baseColor);
     }
 
     draw();
