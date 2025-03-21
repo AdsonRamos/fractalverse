@@ -74,6 +74,7 @@
     <label> Cor da Curva: <input type="color" id="lineColor" value="#0000FF"> </label>
     <label> Cor do Fundo: <input type="color" id="backgroundColor" value="#FFFFFF"> </label>
     <button onclick="drawKochCurve()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -126,6 +127,13 @@
     }
 
     drawKochCurve();
+
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'koch_curve.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

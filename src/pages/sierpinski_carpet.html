@@ -75,6 +75,7 @@
     <label> Cor dos Quadrados: <input type="color" id="squareColor" value="#000000"> </label>
     <label>Mostrar Animação: <input type="checkbox" id="animate"></label>
     <button onclick="drawCarpet()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -108,6 +109,13 @@
     }
 
     drawCarpet();
+
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'sierpinski_carpet.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

@@ -73,6 +73,7 @@
     <label> Iterações: <input type="number" id="iterations" value="3" min="1" max="5"> </label>
     <label> Cor: <input type="color" id="colorPicker" value="#00ffcc"> </label>
     <button onclick="drawGosper()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -118,6 +119,12 @@
     }
 
     drawGosper();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'gosper_curve.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

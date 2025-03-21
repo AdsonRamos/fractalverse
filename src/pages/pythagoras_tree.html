@@ -72,7 +72,8 @@
   <div class="controls">
     <label> Nível de Recursão: <input type="number" id="recursionLevel" value="5" min="0" max="10"> </label>
     <label> Cor Base: <input type="color" id="baseColor" value="#228B22"> </label>
-    <button onclick="drawTree()">Atualizar</button>
+    <button onclick="draw()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -111,7 +112,7 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = 'white'
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      drawTree(canvas.width / 2 - 50, canvas.height - 100, 100, 0, 10, baseColor);
+      drawTree(canvas.width / 2 - 50, canvas.height - 100, 100, 0, level, baseColor);
     }
 
     draw();

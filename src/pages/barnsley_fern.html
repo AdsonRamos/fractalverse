@@ -73,6 +73,7 @@
     <label> Pontos: <input type="number" id="points" value="100000" min="1000" max="500000"> </label>
     <label> Cor: <input type="color" id="colorPicker" value="#00ff00"> </label>
     <button onclick="drawBarnsley()">Gerar Fractal</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -113,6 +114,12 @@
     }
 
     drawBarnsley();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'barnsley_fern.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

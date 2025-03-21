@@ -72,6 +72,7 @@
     <label>Cor do Triângulo: <input type="color" id="triangleColor" value="#000000"></label>
     <label>Mostrar Animação: <input type="checkbox" id="animate"></label>
     <button onclick="render()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
   <script>
     const canvas = document.getElementById("sierpinskiCanvas");
@@ -120,6 +121,13 @@
     document.getElementById("triangleColor").addEventListener("input", render);
 
     render();
+
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'sierpinski_triangle.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 </body>
 

@@ -73,6 +73,7 @@
     <label> Iterações: <input type="number" id="iterations" value="4" min="1" max="7"> </label>
     <label> Cor: <input type="color" id="colorPicker" value="#00ffcc"> </label>
     <button onclick="drawHilbert()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -80,7 +81,7 @@
     const ctx = canvas.getContext("2d");
 
     function hilbertCurve(order, x, y, xi, xj, yi, yj, firstMove = true) {
-      if (order <= 0) {
+      if (order === 0) {
         const newX = x + (xi + yi) / 2;
         const newY = y + (xj + yj) / 2;
         if (firstMove) {
@@ -112,6 +113,12 @@
     }
 
     drawHilbert();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'hilbert_curve.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

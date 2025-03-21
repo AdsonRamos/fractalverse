@@ -15,7 +15,7 @@
     }
 
     canvas {
-      background-color: black;
+      background-color: #b97b7b;
       display: block;
       margin: auto;
       border-radius: 10px;
@@ -73,6 +73,7 @@
     <label> Iterações: <input type="number" id="iterations" value="3" min="1" max="5"> </label>
     <label> Cor: <input type="color" id="colorPicker" value="#00ffcc"> </label>
     <button onclick="drawPeano()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -85,6 +86,7 @@
           ctx.moveTo(x, y);
         } else {
           ctx.lineTo(x, y);
+          ctx.stroke();
         }
         return;
       }
@@ -92,14 +94,15 @@
       const newSize = size / 3;
 
       peanoCurve(order - 1, x, y, newSize, firstMove);
-      peanoCurve(order - 1, x, y + newSize, newSize, false);
-      peanoCurve(order - 1, x, y + 2 * newSize, newSize, false);
-      peanoCurve(order - 1, x + newSize, y + 2 * newSize, newSize, false);
-      peanoCurve(order - 1, x + newSize, y + newSize, newSize, false);
+      peanoCurve(order - 1, x, y - newSize, newSize, false);
+      peanoCurve(order - 1, x, y - 2 * newSize, newSize, false);
+      peanoCurve(order - 1, x + newSize, y - 2 * newSize, newSize, false);
+      peanoCurve(order - 1, x + newSize, y - newSize, newSize, false);
       peanoCurve(order - 1, x + newSize, y, newSize, false);
       peanoCurve(order - 1, x + 2 * newSize, y, newSize, false);
-      peanoCurve(order - 1, x + 2 * newSize, y + newSize, newSize, false);
-      peanoCurve(order - 1, x + 2 * newSize, y + 2 * newSize, newSize, false);
+      peanoCurve(order - 1, x + 2 * newSize, y - newSize, newSize, false);
+      peanoCurve(order - 1, x + 2 * newSize, y - 2 * newSize, newSize, false);
+      //ctx.stroke();
     }
 
     function drawPeano() {
@@ -112,11 +115,18 @@
       const size = Math.min(canvas.width, canvas.height) * 0.8;
       const offsetX = (canvas.width - size) / 2;
       const offsetY = (canvas.height - size) / 2;
-      peanoCurve(iterations, offsetX, offsetY, size);
-      ctx.stroke();
+      ctx.fillRect(offsetX, offsetY, size, size)
+      peanoCurve(2, offsetX, canvas.height - offsetY, size);
+      //ctx.stroke();
     }
 
     drawPeano();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'peano_curve.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

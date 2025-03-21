@@ -75,6 +75,7 @@
     <label> C Real: <input type="number" id="cReal" value="-0.7" step="0.01"> </label>
     <label> C Imaginário: <input type="number" id="cImag" value="0.27015" step="0.01"> </label>
     <button onclick="drawJulia()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -126,6 +127,12 @@
     }
 
     drawJulia();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'julia_set.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

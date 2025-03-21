@@ -73,6 +73,7 @@
     <label> Profundidade: <input type="number" id="depth" value="3" min="0" max="5"> </label>
     <label> Cor: <input type="color" id="colorPicker" value="#ffcc00"> </label>
     <button onclick="drawFractal()">Gerar Fractal</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -104,6 +105,12 @@
     }
 
     drawFractal();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'vicsek_fractal.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

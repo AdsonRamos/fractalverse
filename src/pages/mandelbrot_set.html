@@ -75,6 +75,7 @@
     <label> Deslocamento X: <input type="number" id="offsetX" value="-2" step="0.1"> </label>
     <label> Deslocamento Y: <input type="number" id="offsetY" value="-1.5" step="0.1"> </label>
     <button onclick="drawMandelbrot()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -138,6 +139,12 @@
     offsetY.addEventListener("input", drawMandelbrot)
 
     drawMandelbrot();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'mandelbrot_set.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 
 </body>

@@ -1,7 +1,7 @@
 
 
 const fractals = [
-  { name: "Triângulo de Sierpiński", description: "Triângulo subdividido removendo o centro.", img: 'resources/fractals/sierpinski_triangle.png', link: 'src/pages/sierpisnki_triangle.html' },
+  { name: "Triângulo de Sierpiński", description: "Triângulo subdividido removendo o centro.", img: 'resources/fractals/sierpinski_triangle.png', link: 'src/pages/sierpinski_triangle.html' },
   { name: "Carpete de Sierpiński", description: "Quadrado dividido em 9 partes, removendo o centro.", img: 'resources/fractals/sierpinski_carpet.png', link: 'src/pages/sierpinski_carpet.html' },
   { name: "Curva de Koch", description: "Segmento substituído por um padrão em forma de 'V'.", img: 'resources/fractals/koch_curve.png', link: 'src/pages/koch_curve.html' },
   { name: "Floco de Neve de Koch", description: "Triângulo com cada lado transformado em curva de Koch.", img: 'resources/fractals/koch_snowflake.png', link: 'src/pages/koch_snowflake.html' },

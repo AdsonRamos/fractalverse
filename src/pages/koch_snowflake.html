@@ -71,6 +71,7 @@
     <label>Número de iterações:<input type="number" id="iterations" min="0" max="10" value="3"> </label>
 
     <button onclick="drawFractal()">Desenhar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
   </div>
 
   <script>
@@ -128,6 +129,13 @@
 
     // Inicializar com o valor padrão
     drawFractal();
+
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'koch_snowflake.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
   </script>
 </body>
 
