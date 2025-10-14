@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Árvore de Pythagoras</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: white;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 60px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e68900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Árvore de Pythagoras</h1>
+  <canvas id="treeCanvas" width="600" height="600"></canvas>
+
+  <div class="controls">
+    <label> Nível de Recursão: <input type="number" id="recursionLevel" value="5" min="0" max="10"> </label>
+    <label> Cor Base: <input type="color" id="baseColor" value="#228B22"> </label>
+    <button onclick="draw()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("treeCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function drawSquare(x, y, size, angle, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, size, size);
+      ctx.restore();
+    }
+
+    function drawTree(x, y, size, angle, level, color) {
+      if (level === 0) return;
+      drawSquare(x, y, size, angle, color);
+
+      const newSize = size * Math.cos(Math.PI / 4);
+
+      const x1 = x - newSize * Math.cos(angle + Math.PI / 4);
+      const y1 = y + newSize * Math.sin(angle - 3 * Math.PI / 4);
+
+      const rightX = x + 2 * newSize * Math.cos(angle - Math.PI / 4);
+      const rightY = y - 2 * newSize * Math.sin(angle + 3 * Math.PI / 4)
+
+      drawTree(x1, y1, newSize, angle - Math.PI / 4, level - 1, color);
+      drawTree(rightX, rightY, newSize, angle + Math.PI / 4, level - 1, color);
+    }
+
+    function draw() {
+      const level = parseInt(document.getElementById("recursionLevel").value);
+      const baseColor = document.getElementById("baseColor").value;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'white'
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      drawTree(canvas.width / 2 - 50, canvas.height - 100, 100, 0, level, baseColor);
+    }
+
+    draw();
+  </script>
+
+</body>
+
+</html>

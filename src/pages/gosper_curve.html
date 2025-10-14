@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curva de Gosper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 80px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e68900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Curva de Gosper</h1>
+  <canvas id="gosperCanvas" width="600" height="600"></canvas>
+
+  <div class="controls">
+    <label> Iterações: <input type="number" id="iterations" value="3" min="1" max="5"> </label>
+    <label> Cor: <input type="color" id="colorPicker" value="#00ffcc"> </label>
+    <button onclick="drawGosper()">Atualizar</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gosperCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function gosperCurve(order, length, x, y, angle) {
+      if (order === 0) {
+        const rad = (Math.PI / 180) * angle;
+        const newX = x + length * Math.cos(rad);
+        const newY = y + length * Math.sin(rad);
+        ctx.lineTo(newX, newY);
+        ctx.stroke();
+        return { x: newX, y: newY, angle: angle };
+      }
+
+      length /= 2.6457; // Fator de escala para a curva de Gosper
+
+      let p1 = gosperCurve(order - 1, length, x, y, angle);
+      let p2 = gosperCurve(order - 1, length, p1.x, p1.y, p1.angle - 60);
+      let p3 = gosperCurve(order - 1, length, p2.x, p2.y, p2.angle + 60);
+      let p4 = gosperCurve(order - 1, length, p3.x, p3.y, p3.angle + 60);
+      let p5 = gosperCurve(order - 1, length, p4.x, p4.y, p4.angle - 60);
+      let p6 = gosperCurve(order - 1, length, p5.x, p5.y, p5.angle - 60);
+      let p7 = gosperCurve(order - 1, length, p6.x, p6.y, p6.angle + 60);
+      return p7;
+    }
+
+    function drawGosper() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const color = document.getElementById("colorPicker").value;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+
+      const iterations = parseInt(document.getElementById("iterations").value);
+      const size = Math.min(canvas.width, canvas.height) * 0.7;
+      const startX = canvas.width * 0.2;
+      const startY = canvas.height * 0.5;
+
+      ctx.moveTo(startX, startY);
+      gosperCurve(iterations, size, startX, startY, 0);
+    }
+
+    drawGosper();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'gosper_curve.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  </script>
+
+</body>
+
+</html>

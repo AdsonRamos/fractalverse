@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samambaia de Barnsley</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      margin: 20px;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .controls {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      width: 80px;
+      text-align: center;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Samambaia de Barnsley</h1>
+  <canvas id="barnsleyCanvas" width="500" height="600"></canvas>
+
+  <div class="controls">
+    <label> Pontos: <input type="number" id="points" value="100000" min="1000" max="500000"> </label>
+    <label> Cor: <input type="color" id="colorPicker" value="#00ff00"> </label>
+    <button onclick="drawBarnsley()">Gerar Fractal</button>
+    <button onclick="downloadImg()">Baixar Imagem</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("barnsleyCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function transform(x, y, choice) {
+      if (choice < 0.01) { // Transformação 1
+        return { x: 0, y: 0.16 * y };
+      } else if (choice < 0.86) { // Transformação 2
+        return { x: 0.85 * x + 0.04 * y, y: -0.04 * x + 0.85 * y + 1.6 };
+      } else if (choice < 0.93) { // Transformação 3
+        return { x: 0.2 * x - 0.26 * y, y: 0.23 * x + 0.22 * y + 1.6 };
+      } else { // Transformação 4
+        return { x: -0.15 * x + 0.28 * y, y: 0.26 * x + 0.24 * y + 0.44 };
+      }
+    }
+
+    function drawBarnsley() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const color = document.getElementById("colorPicker").value;
+      ctx.fillStyle = color;
+
+      const points = parseInt(document.getElementById("points").value);
+      let x = 0, y = 0;
+
+      for (let i = 0; i < points; i++) {
+        let choice = Math.random();
+        let newPoint = transform(x, y, choice);
+        x = newPoint.x;
+        y = newPoint.y;
+
+        // Mapeia coordenadas para o canvas
+        const px = Math.round(250 + x * 50);
+        const py = Math.round(600 - y * 50);
+        ctx.fillRect(px, py, 1, 1);
+      }
+    }
+
+    drawBarnsley();
+    function downloadImg() {
+      const link = document.createElement('a');
+      link.download = 'barnsley_fern.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  </script>
+
+</body>
+
+</html>
