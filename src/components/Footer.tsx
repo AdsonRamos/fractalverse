@@ -7,17 +7,14 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { name: 'GitHub', href: '#', icon: Github },
-    { name: 'Twitter', href: '#', icon: Twitter },
-    { name: 'LinkedIn', href: '#', icon: Linkedin },
-    { name: 'Email', href: 'mailto:contact@fractalexplorer.com', icon: Mail },
+    { name: 'GitHub', href: 'https://github.com/AdsonRamos/', icon: Github },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/adsonramos/', icon: Linkedin },
   ];
 
   const footerLinks = [
     { name: 'Home', href: '/' },
     { name: 'Galeria', href: '/gallery' },
     { name: 'Sobre', href: '/about' },
-    { name: 'Contato', href: '/contact' },
   ];
 
   return (
@@ -63,6 +60,7 @@ const Footer = () => {
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
+                  target="_blank"
                   href={social.href}
                   className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800"
                   aria-label={social.name}
