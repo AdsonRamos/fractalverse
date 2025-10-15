@@ -62,7 +62,7 @@ export default function DragonCurveCanvas() {
     canvas.width = 600;
     canvas.height = 600;
     drawDragon();
-  }, [iterations, size]);
+  }, [iterations, size, drawDragon]);
 
   // Baixar imagem do fractal
   const downloadImg = () => {

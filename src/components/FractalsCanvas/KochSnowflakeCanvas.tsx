@@ -66,7 +66,7 @@ export default function KochSnowflakeCanvas() {
 
   useEffect(() => {
     drawFractal();
-  }, []);
+  }, [drawFractal]);
 
   const downloadImg = () => {
     const canvas = canvasRef.current;

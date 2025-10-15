@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,9 +22,11 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
             <div className="relative">
-              <img
+              <Image
                 src="/images/logo.png"
                 alt="Ícone Fractal"
+                width={200}
+                height={200}
                 className="h-8 w-8 object-contain group-hover:opacity-80 transition-opacity"
               />
               <div className="absolute inset-0 bg-blue-400/20 rounded-full blur-sm group-hover:bg-blue-300/30 transition-colors" />

@@ -56,7 +56,6 @@ export default function ContactForm() {
 
   const socialLinks = [
     { name: 'GitHub', href: '#', icon: Github, color: 'hover:text-gray-300' },
-    { name: 'Twitter', href: '#', icon: Twitter, color: 'hover:text-blue-400' },
     { name: 'LinkedIn', href: '#', icon: Linkedin, color: 'hover:text-blue-600' }
   ];
 

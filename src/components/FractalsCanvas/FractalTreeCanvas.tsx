@@ -192,7 +192,7 @@ export default function FractalTreeCanvas() {
       return;
     }
 
-    let start = performance.now();
+    const start = performance.now();
     const tick = (t: number) => {
       const elapsed = t - start;
       // animação suave: faz o ângulo oscilar +/- 15 graus
@@ -214,7 +214,6 @@ export default function FractalTreeCanvas() {
         rafRef.current = null;
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animate, drawTree]); // intentionally not including angleDeg setter in deps
 
   // Baixar imagem (tratando canvas nulo)

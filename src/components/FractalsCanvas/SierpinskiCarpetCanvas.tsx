@@ -64,7 +64,7 @@ export default function SierpinskiCarpetCanvas() {
 
   useEffect(() => {
     drawCarpet();
-  }, []);
+  }, [drawCarpet]);
 
   const downloadImg = () => {
     const canvas = canvasRef.current;

@@ -56,7 +56,7 @@ export default function JuliaCanvas() {
   // Renderiza o fractal ao carregar e ao alterar os parâmetros
   useEffect(() => {
     drawFractal();
-  }, [iterations, zoom, cReal, cImag]);
+  }, [iterations, zoom, cReal, cImag, drawFractal]);
 
   // Baixar imagem
   function downloadImg() {

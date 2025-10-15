@@ -9,7 +9,7 @@ export interface Fractal {
   complexity: 'simple' | 'intermediate' | 'complex';
   year: number;
   discoverer: string;
-  canvas?: any
+  canvas?: React.FC
 }
 
 export interface SEOData {

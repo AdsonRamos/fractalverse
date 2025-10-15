@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Fractal } from "@/types/fractal";
 import { ExternalLink } from "lucide-react";
+import Image from "next/image";
 
 interface CardFractalProps {
   fractal: Fractal;
@@ -51,7 +52,7 @@ const CardFractal = ({ fractal, index }: CardFractalProps) => {
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-6xl">
-                <img src={fractal.image} alt="Ícone Fractal" />
+                <Image src={fractal.image} alt="Ícone Fractal" width={300} height={300}/>
               </div>
             </div>
             <div className="absolute top-4 right-4">
